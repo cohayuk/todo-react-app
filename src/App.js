@@ -1,6 +1,7 @@
 import React from 'react';
 import Todo from './Todo';
-import {Paper, List}from "@material-ui/core";
+import AddTodo from './AddTodo';
+import {Paper, List, Container}from "@material-ui/core";
 import './App.css';
 
 class App extends React.Component {
@@ -8,10 +9,20 @@ class App extends React.Component {
     super(props);     // 매개변수 pros 초기화
     this.state ={   // item 에 item.id, item.title, item.done 매개변수 이름과 값 할당
       items :[
-        {id:0, title:"Todo 1 ", done:true},
-        {id:1, title:"Todo 2 ", done:false},
+        {id:"todo0", title:"Todo 1 ", done:true},
+        {id:"todo1", title:"Todo 2 ", done:false},
       ],
     };
+  }
+  // (1) add 함수 추가
+  add =(item)=>{
+    const thisItems =this.state.items;
+    item.id ="ID-"+ thisItems.length;
+    item.done =false;
+    thisItems.push(item);
+    this.setState({items:thisItems});
+    console.log("items:",this.state.items);
+
   }
   
   render(){
@@ -26,7 +37,16 @@ class App extends React.Component {
 
     );
 
-    return <div className="App">{todoItems}</div>;
+    // (2) add 함수 연결
+    return (
+      <div className="App">
+        <Container maxWidth="md">
+          <AddTodo add={this.add}/>
+          <div className="TodoList">{todoItems}</div>
+        </Container>
+      </div>
+    );
+
   }
 }
 
